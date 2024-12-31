@@ -8,6 +8,76 @@ The Open WebUI system is designed to streamline interactions between the client 
 
 - **Security Benefits**: This design prevents direct exposure of the Ollama API to the frontend, safeguarding against potential CORS (Cross-Origin Resource Sharing) issues and unauthorized access. Requiring authentication to access the Ollama API further enhances this security layer.
 
+## Python Version Requirements
+
+Open WebUI is recommended to run with Python versions 3.8 through 3.11. While newer versions like 3.13 might work, they haven't been extensively tested and could cause compatibility issues with some dependencies.
+
+### Setting Up a Python Environment (Recommended)
+
+Instead of downgrading your system Python, we recommend using a virtual environment:
+
+1. **Using pyenv (Recommended for version management)**:
+```bash
+# Install pyenv (macOS)
+brew install pyenv
+
+# Add pyenv to your shell (add to ~/.zshrc or ~/.bash_profile)
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
+echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
+echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+
+# Restart your shell or run
+source ~/.zshrc
+
+# Install a compatible Python version
+pyenv install 3.11
+
+# Set up the environment
+pyenv local 3.11
+pyenv rehash  # Rebuild the shim executables
+
+# Now create and activate the virtual environment
+python3 -m venv venv
+source venv/bin/activate
+```
+
+For your current situation, try these commands to fix the error:
+
+```bash
+# Rehash pyenv
+pyenv rehash
+
+# If that doesn't work, restart your shell or run
+source ~/.zshrc
+
+# Then try creating the venv again
+python3 -m venv venv
+source venv/bin/activate
+```
+
+2. **Using conda**:
+```bash
+# Create a new environment with Python 3.11
+conda create -n open-webui python=3.11
+conda activate open-webui
+```
+
+3. **Using venv with existing Python**:
+```bash
+# If you already have a compatible Python version
+python3.11 -m venv venv
+source venv/bin/activate  # On Unix/macOS
+# or
+.\venv\Scripts\activate  # On Windows
+```
+
+After setting up your environment, verify the Python version:
+```bash
+python --version  # Should show 3.8-3.11
+```
+
+To install a specific Python version, visit [Python's official downloads page](https://www.python.org/downloads/).
+
 ## Open WebUI: Server Connection Error
 
 If you're experiencing connection issues, it’s often due to the WebUI docker container not being able to reach the Ollama server at 127.0.0.1:11434 (host.docker.internal:11434) inside the container . Use the `--network=host` flag in your docker command to resolve this. Note that the port changes from 3000 to 8080, resulting in the link: `http://localhost:8080`.
